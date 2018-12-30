@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<script type="text/javascript" src="./static/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+<script src="./static/js/jquery.js" charset="utf-8"></script>
+<script src="./static/js/twenty48.js"></script>
+<script src="./static/js/jquery.touchSwipe.min.js"></script>
+<style>
+/* default; */
+    /* body         {margin:0; padding:0; background-color:#ffc} */
+    html, body   {overscroll-behavior-y:none;}
+    /* .container   {position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; z-index:1; background-image: url(/static/images/blue.png); background-repeat:no-repeat; background-size:100% 100%;} */
+    .container   {position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; z-index:1; background-color:#f0f0f4;}
+
+    .backdrop    {position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; display:none; text-align:center; z-index:10; background-color:#555; opacity:0.8;}
+    .backdrop:hover  {cursor:pointer;}
+    .popGameover {position:absolute; height:100px; margin:auto; top:0; right:0; bottom:0; left:0; color:#111; font-size:80px; text-shadow:2px 2px #eee;}
+
+    .backdrop2nd {position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; display:none; text-align:center; z-index:10; background-color:#555; opacity:0.8;}
+    .backdrop2nd:hover  {cursor:pointer;}
+    .popRanking  {position:absolute; background-color:#fff; border-radius:10px; width:400px; height:400px; margin:auto; top:0; right:0; bottom:0; left:0; color:#111; font-size:20px; overflow-y:scroll; padding:10px;}
+    .popRanking::-webkit-scrollbar             {width:9px;}
+    .popRanking::-webkit-scrollbar-thumb       {background:#979797; height:66px; border-radius:5.5px;}
+    .popRanking::-webkit-scrollbar-thumb:hover {background:#777;}
+    .rankIndex   {display:inline-block; width:35px;}
+    .rankId      {display:inline-block; width:150px;}
+    .rankScore   {display:inline-block; width:180px;}
+
+</style>
+</head>
+<body>
+<div class="backdrop"><div class="popGameover">Game Over :(</div></div>
+<div class="backdrop2nd"><div class="popRanking">
+
+</div></div>
+
+<div class="container">
+    <button id="newGame">New Game (Press F2)</button>
+
+    <button id="rankView">ranking</button>
+    <div class="boxZone">
+        <div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        </div>
+        <div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        </div>
+        <div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        </div>
+        <div class="row"><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+        </div>
+    </div>
+</div>
+
+    <a href="#" class="ddd">ddddd</a>
+
+<script>
+$(document).ready(function(){
+
+
+
+
+
+
+
+})
+</script>
+
+<script>
+// below from
+// https://hyeonseok.com/soojung/usability/2011/11/09/681.html
+//<![CDATA[
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-******-*']);
+_gaq.push(['_trackPageview']);
+_gaq.push(['_trackPageLoadTime']);
+
+(function () {
+	addEvent(document, 'click', function (event) {
+		var element = getClickableElement(event.target);
+		var category, action, label;
+		if (!element) {
+			return;
+		}
+		category = getStructure(element).join('-');
+		action = (
+			element.href.indexOf('.pdf') > -1
+			|| element.href.indexOf('.mov') > -1
+			|| element.href.indexOf('.avi') > -1
+			|| element.href.indexOf('.m4v') > -1
+			|| element.href.indexOf('.wmv') > -1
+			|| element.href.indexOf('.mp3') > -1
+			|| element.href.indexOf('.rar') > -1
+			|| element.href.indexOf('.zip') > -1
+		) ? 'download' : (
+			element.href.indexOf('.html') > -1
+			|| element.href.indexOf('.txt') > -1
+			|| element.href.indexOf('.js') > -1
+		) ? 'example' : 'link';
+		label = element.innerHTML;
+		_gaq.push(['_trackEvent', category, action, label]);
+	});
+	function addEvent(obj, type, fn) {
+		if (obj.addEventListener) {
+			obj.addEventListener(type, fn, false);
+		} else if (obj.attachEvent) {
+			obj["e" + type + fn] = fn;
+			obj[type + fn] = function() {
+				obj["e" + type + fn](window.event);
+			}
+			obj.attachEvent("on" + type, obj[type + fn]);
+		}
+	}
+	function getStructure(el) {
+		var structure = [];
+		if (el.parentNode && el.parentNode.tagName.toLowerCase() != 'body') {
+			structure = getStructure(el.parentNode);
+		}
+		if (el.id) {
+			structure.push(el.id);
+		} else if (el.className) {
+			structure.push(el.className);
+		}
+		return structure;
+	}
+	function getClickableElement(element) {
+		if (element.tagName == undefined) {
+			return false;
+		}
+		if (element.tagName.toLowerCase() == 'a' || element.tagName.toLowerCase() == 'area') {
+			return element;
+		}
+		if (element.parentNode) {
+			return getClickableElement(element.parentNode);
+		}
+		return false;
+	}
+})();
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+//]]>
+</script>
+
+</body>
+</html>

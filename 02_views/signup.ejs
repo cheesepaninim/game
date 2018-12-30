@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+/* body *      {font-family:NotoSansCJKkr-Medium;} 별로 안좋은듯 body *.. */
+body           {font-family:NotoSansCJKkr-Medium; font-size:10px; margin:0; padding:0;}
+.container     {width:100%; height:100%;}
+.tskGray       {color:#9b9b9b;}
+.tskBold       {font-weight:550;}
+.tskLeft       {display:inherit; text-align:left;}
+.tskRight      {display:inherit; text-align:right;}
+.tskCenter     {display:inherit; text-align:center;}
+.tskShadow     {-moz-box-shadow:1px 1px 1px 1px rgba(16,16,16,0.3);-webkit-box-shadow:1px 1px 1px 1px rgba(16,16,16,0.3);box-shadow:1px 1px 1px 1px rgba(16,16,16,0.3);}
+.tskCheckbox   {}
+
+.backdrop      {z-index:9; position:absolute; width:100%; height:100%; background-color:#eee; opacity:0.8;}
+.modalBox      {z-index:10; position:absolute; top:0; right:0; bottom:0; left:0; margin:auto; width:660px; height:440px; border:1px solid #075a7b;}
+.backdrop2nd   {z-index:99; position:absolute; display:none; width:100%; height:100%; background-color:#eee; opacity:0.8;}
+.popWindow     {z-index:100; position:absolute; display:none; top:0; right:0; bottom:0; left:0; margin:auto; width:500px; height:545px; background-color:#fff; box-shadow:0 0 4px 0 rgba(0,0,0,0.5);}
+
+.termTitle     {text-align:center; margin:25px auto 40px; font-size:24px; font-weight:bold; color:#4a4a4a;}
+.termContent   {overflow-y:scroll; margin:0 auto 20px; padding:0 27px; width:434px; height:375px; white-space:pre-line; line-height:2; color:#4a4a4a;}
+.termContent::-webkit-scrollbar             {width:9px;}
+/* .termContent::-webkit-scrollbar-track       {margin-top:-50px;} */
+.termContent::-webkit-scrollbar-thumb       {background:#979797; height:66px; border-radius:5.5px;}
+.termContent::-webkit-scrollbar-thumb:hover {background:#777;}
+.popClose      {position:absolute; bottom:0; width:100%; height:53px; text-align:center; background-color:#d8d8d8;}
+.popClose > div{display:inline-block; margin-top:15px; font-size:18px; color:#4a4a4a;}
+.popClose:hover{background-color:#a8a8a8; cursor:pointer;}
+/* .popClose:hover > div {color:#eee;} */
+
+.showWindow    {position:absolute; overflow:hidden; width:254px; height:440px; background-color:#075a7b;}
+.showsBox      {width:762px; height:100%;}
+.shows         {display:inline-block; width:254px; height:100%; float:left;}
+/* #show1         {background-color:#afc;} */
+/* #show2         {background-color:#cfa;} */
+/* #show3         {background-color:#fac;} */
+.dotsBox       {position:absolute; left:113.7px; bottom:13px;}
+.dots          {display:inline-block; width:6px; height:6px; border:1px solid white; border-radius:6px; background-color:#fff;}
+.dots.active   {background-color:#075a7b; border:1px solid #075a7b;}
+
+.formBox       {position:absolute; width:406px; height:440px; left:254px; background-color:#fff;}
+.moveToSignup  {margin:9.4px 9.3px 7px 0;}
+.formBoxHeader {display:block; margin-bottom:26.8px; font-size:30px;}
+.signupForm    {width:330px; margin:0 auto 47px;}
+.formLabel     {font-size:10px; text-align:left;}
+.formInput     {width:calc(330.4px - 34px); height:calc(39.6px - 10px); margin:4px 0 8px; padding:6px 17px 4px; border:1px solid #b4b4b4; border-radius:3px;}
+.formInput::placeholder {color:#b4b4b4;}
+.formCheck     {font-size:9px; color:#c83030; text-align:right; visibility:hidden}
+
+.termBox       {margin-top:11px;}
+
+.termsAgree    {font-size:9px;}
+.termsAgree a  {color:#000;}
+.termsAgree a:active {color:#075a7b; font-weight:bold;}
+
+input[name=agreement] {opacity:0; cursor:pointer;}
+.tskCheckbox {position:absolute; margin:5px 0 0 -18px; height:13px; width:13px; background-color:#e6e6e6; border:1px solid #b4b4b4; border-radius:2px;}
+input[name=agreement]:checked ~ .tskCheckbox {background-color: #e0e0e0;}
+.tskCheckbox:after {content:""; position:absolute; display:none;}
+input[name=agreement]:checked ~ .tskCheckbox:after {display:block;}
+.tskCheckbox:after {margin:-1px 0 0 4px; width:4px; height:9px; border:1px solid #979797; border-width:0 1px 1px 0; -webkit-transform:rotate(45deg); -ms-transform:rotate(45deg); transform:rotate(45deg);}
+
+/* add */
+.formLabel > .formCheck {margin-top:-12px;}
+/* add */
+
+.formCheck.active {visibility:visible;}
+.submitBtn     {width:148.4px; height:33.2px; margin:24.1px 0 5.8px; font-size:10px; color:#fff; background-color:#075a7b; border:1px solid #075a7b; border-radius:16.6px;}
+#signupBtn     {margin-top:6px;}
+.socialLogins  {margin-top:10px; text-align:center;}
+.socialLogins img {margin-left:5px;}
+
+</style>
+<script src="./static/js/jquery.js" charset="utf-8"></script>
+</head>
+<body>
+
+<div class='container'>
+
+    <!-- <h5><a href="/">이전으로</a></h5> -->
+
+    <div class="backdrop"></div>
+    <div class="backdrop2nd"></div>
+    <div class="popWindow"></div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur qui earum fuga laborum quam, fugiat culpa incidunt hic nemo. Autem delectus suscipit nostrum doloremque, a quo dicta minima eaque cum.
+    <div class='modalBox tskShadow'>
+
+        <div class="showWindow">
+            <div class="showsBox">
+                <div class="shows" id="show1"></div>
+                <div class="shows" id="show2"></div>
+                <div class="shows" id="show3"></div>
+            </div>
+            <div class="dotsBox">
+                <div class="dots active"></div>
+                <div class="dots"></div>
+                <div class="dots"></div>
+            </div>
+        </div>
+
+
+        <div class="formBox">
+            <span class="moveToSignup linked tskRight"><a class="tskGray tskBold" href="/">이미 등록된 계정이 있으신가요?</a></span>
+            <span class="formBoxHeader tskBold tskCenter">SIGN UP</span>
+            <form class="signupForm tskCenter">
+                <label class="formLabel tskGray tskLeft" for="email">E-mail <span class="formCheck tskRight">이미 등록된 이메일 주소입니다</span></label>
+                <input class="formInput" type="text" name="email" placeholder="이메일을 입력해주세요" required><br>
+
+                <button id="emailBtn">인증번호 발송</button><br>
+                <input type="text" name="verifyNum" placeholder="인증번호를 입력해주세요" style="display:none">
+                <button id="verifyBtn" style="display:none">확인</button><br>
+
+                <label class="formLabel tskGray tskLeft" for="pwd">Password <span class="formCheck tskRight">비밀번호는 6자 이상, 18자 이하의 길이가 필요합니다</span></label>
+                <input class="formInput" type="password" name="pwd" placeholder="비밀번호를 입력해주세요" required><br>
+
+                <!-- <label for="remember">저장</label>
+                <input type="checkbox" name="remember"/> -->
+
+                <div class="termBox">
+                    <input type="checkbox" name="agreement"/>
+                    <span class="tskCheckbox"></span>
+                    <label class="termsAgree">
+                        <a href="javascript:void(0)" onclick="openPop('terms/usage');">이용약관</a>과
+                        <a href="javascript:void(0)" onclick="openPop('terms/privacy');">개인정보보호정책</a>에 동의합니다.
+                    </label><br>
+                </div>
+
+                <button class="submitBtn" id="signupBtn" type="submit">SIGN UP</button><br>
+
+            </form>
+            <span class="tskGray tskCenter">소셜 아이디로 가입하기</span>
+            <div class="socialLogins">
+                <a href="#"><img src="./static/images/img_facebookIcon.png" alt="facebook icon"></a>
+                <a href="#"><img src="./static/images/img_kakaoIcon.png" alt="kakaotalk icon"></a>
+                <a href="#"><img src="./static/images/img_naverIcon.png" alt="naver icon"></a>
+                <a href="#"><img src="./static/images/img_googleIcon.png" alt="google icon"></a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+    if(localStorage.powell_email) $('input[name=email]').val(localStorage.powell_email)
+})
+
+$('.showsBox').on('click', function(){
+    if($(this).css('margin-left') == '-508px'){
+        $(this).css('margin-left', '0')
+        $('.dotsBox').children('.dots').eq(0).addClass('active').siblings().removeClass('active')
+    }
+    else{
+        $(this).css('margin-left', 'calc(' + $(this).css("margin-left") +' - 254px)')
+        var mgLeft = $(this).css("margin-left").substr(0,4)
+        index = mgLeft * (-1) / 254
+        $('.dotsBox').children('.dots').eq(index).addClass('active').siblings().removeClass('active')
+    }
+})
+
+function openPop(content){
+    $('.backdrop2nd').show()
+    $('.popWindow').show()
+
+    if(!content){
+
+    }
+    else{
+        $.ajax({
+            url     : "/static/"+content+".html",
+            dataType: "html",
+            success : function (data) {
+                $(".popWindow").html(data)
+            }
+        })
+    }
+
+}
+
+$('.backdrop2nd').on('click', function(){closePop()})
+$('.popWindow').on('click', '.popClose', function(){closePop()})
+
+function closePop(){
+    $('.backdrop2nd').hide()
+    $('.popWindow').hide().children().remove()
+}
+
+// 약관 동의 체크박스 핸들링
+$('.tskCheckbox').on('click', function(){
+    var agreement = $('input[name=agreement]')
+    agreement.prop('checked', !agreement.prop('checked'))
+})
+
+// 인증메일발송
+$('#emailBtn').on('click',function(e){
+    e.preventDefault()
+    email = $('input[name=email]').val()
+    if(!email)                      return alert('이메일을 입력해주세요')
+    // 정규식 수정 필요
+    // var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+    // if(email.match(regExp) == null) return alert('적절하지 않은 메일 주소입니다.')
+
+    // 입력한 주소로 인증 메일 발송
+    $.post('/signup/checkEmail', {email:email}, function(data){
+        switch(data){
+            case 'error'   :
+                alert('오류가 발생했습니다.\n잠시후 다시 시도해주세요.')
+                break;
+            case 'exist'   :
+                $('.formLabel[for=email] .formCheck').addClass('active')
+                // var findPassword = confirm('유저 정보가 이미 존재합니다.\n비밀번호 찾기를 진행하시겠습니까?')
+                // if(findPassword) {
+                // // findPassword() 실행
+                // }
+                // alert('죄송합니다. 해당 기능은 아직 준비중입니다.')
+                break;
+            case 'success' :
+                $('.formLabel[for=email] .formCheck').removeClass('active')
+                alert('인증번호가 발송되었습니다.')
+                $('input[name=verifyNum],#verifyBtn').css('display','')
+                // 3min timer() 실행
+                break;
+        }
+    }).fail(function(){alert('server communication error occured')})
+})
+
+// 인증번호확인
+$('#verifyBtn').on('click',function(e){
+    e.preventDefault()
+    email = $('input[name=email]').val()
+    var verifyNum = $('input[name=verifyNum]').val()
+    $.post('/signup/checkVerify', {email:email, verifyNum:verifyNum}, function(vData){
+        switch(vData){
+            // 시간 만료 체크 필요
+            case 'error'   :
+                alert('오류가 발생했습니다.\n잠시후 다시 시도해주세요.')
+                break;
+            case 'expired' :
+                alert('시간이 만료되었습니다.\n새로운 인증번호를 발송해주세요.')
+                break;
+            case 'changed' :
+                alert('메일주소가 변경되었거나 인증번호가 만료되었습니다.\n'
+                     +'새로운 인증번호를 발송해주세요.')
+                break;
+            case 'failure' :
+                alert('인증번호가 일치하지 않습니다.\n다시 시도해주세요.')
+                break;
+            case 'success' :
+                $('input[name=email],#emailBtn').prop('disabled',true).css('cursor','not-allowed')
+                $('input[name=verifyNum],#verifyBtn').css('display','none').val('')
+                $('#verifyBtn').css('display','none')
+                $('#emailBtn').after('<br><span style="color:#2db76b;">인증되었습니다.</span>')
+                break;
+        }
+    })
+})
+
+$('#signupBtn').on('click', function(e){
+    e.preventDefault()
+    var email, pwd, remember
+    email = $('input[name=email]').val()
+    pwd   = $('input[name=pwd]').val()
+    if(!email) {
+        $('input[name=email]').focus()
+        return alert('이메일을 입력해주세요')
+    }
+    if(!pwd) {
+        $('input[name=pwd]').focus()
+        return alert('비밀번호를 입력해주세요')
+    }
+    if(!$('input[name=agreement]').prop('checked')) return alert('약관에 동의해주세요')
+
+    // 비밀번호 정규식 필요
+
+    if(pwd.length < 6 || pwd.length > 18){
+        console.log(pwd.length)
+        return $('.formLabel[for=pwd] .formCheck').addClass('active')
+    }else{
+        console.log(pwd.length)
+        $('.formLabel[for=email] .formCheck').removeClass('active')
+    }
+
+    $.post('/signup', {email:email, pwd:pwd}, function(data){
+        switch(data){
+            case 'error'   :
+                alert('오류가 발생했습니다.\n잠시후 다시 시도해주세요.')
+                break;
+            case 'uncertainEmail' :
+                alert('인증되지 않은 메일입니다. 인증절차를 진행해주세요.')
+                break;
+            case 'success' :
+                remember = $('input[name=remember]').prop('checked')
+                alert('successfully signed in')
+                if(remember) localStorage.powell_email = email
+                location.href = '/'
+                break;
+        }
+    }).fail(function(){alert('server communication error occured')})
+
+})
+</script>
+</body>
+</html>
