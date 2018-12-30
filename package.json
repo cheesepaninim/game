@@ -1,0 +1,30 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheesepaninim/game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cheesepaninim/game/issues"
+  },
+  "homepage": "https://github.com/cheesepaninim/game#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "moment": "^2.23.0",
+    "nodemailer": "^5.0.0",
+    "pg": "^7.7.1",
+    "redis": "^2.8.0",
+    "shortid": "^2.2.14",
+    "uuid": "^3.3.2"
+  }
+}

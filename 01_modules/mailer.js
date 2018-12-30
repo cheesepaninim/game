@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer')
-const SMTPTransport = require('nodemailer-smtp-transport')
+// const SMTPTransport = require('nodemailer-smtp-transport')
 // const xoauth2 = require('xoauth2')
 const googleApis = require('./../99_docs/config').googleApis
 
